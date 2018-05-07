@@ -1,0 +1,13 @@
+# Client test configuration
+client:
+  # Count of TCP connections
+  count: 3
+  # Initial count of concurrent connections
+  fibers: 8
+#  data: 
+    # Signal filename
+#   filename: testcls.wav
+    # Available sizes for classification, ms
+#    data-sizes: [700, 1000, 1500, 2000, 2500, 3000]
+    # One cls packet size, ms 
+#    packet-size: 100
