@@ -7,7 +7,7 @@ clients:
 # Data source configuration
 data: 
     # Signal filename
-    filename: testcls.wav
+    filename: 110B_8k_32c.wav
     # Available sizes for classification, ms
     duration: [700, 1000, 1500, 2000, 2500, 3000]
     # One cls packet size, ms 

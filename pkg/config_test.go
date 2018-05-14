@@ -16,7 +16,7 @@ func TestNew(t *testing.T) {
 				Fiber: 4,
 			},
 			Data: Data{
-				Duration:   []int{750, 1000, 3000},
+				Duration:   []uint16{750, 1000, 3000},
 				PacketSize: 100,
 			},
 		}

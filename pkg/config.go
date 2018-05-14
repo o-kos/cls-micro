@@ -9,15 +9,15 @@ import (
 
 // Clients - struct for client threading configuration
 type Clients struct {
-	Count int
-	Fiber int
+	Count uint32
+	Fiber uint32
 }
 
 // Data - struct for data source configuration
 type Data struct {
 	FileName   string
-	Duration   []int
-	PacketSize int `yaml:"packet-size"`
+	Duration   []uint16
+	PacketSize uint16 `yaml:"packet-size"`
 }
 
 // Config - struct for application configuration
@@ -47,7 +47,7 @@ func New(name string) (*Config, error) {
 			Fiber: 4,
 		},
 		Data: Data{
-			Duration:   []int{750, 1000, 3000},
+			Duration:   []uint16{750, 1000, 3000},
 			PacketSize: 100,
 		},
 	}
