@@ -1,6 +1,7 @@
-package config
+package utils
 
 import (
+	"errors"
 	"os"
 	"path/filepath"
 
@@ -16,8 +17,19 @@ type Clients struct {
 // Data - struct for data source configuration
 type Data struct {
 	FileName   string
-	Duration   []uint16
+	Durations  []uint16
 	PacketSize uint16 `yaml:"packet-size"`
+}
+
+// MaxDuration - return maximum value of available durations
+func (d *Data) MaxDuration() uint16 {
+	var ms uint16
+	for _, val := range d.Durations {
+		if val > ms {
+			ms = val
+		}
+	}
+	return ms
 }
 
 // Config - struct for application configuration
@@ -47,13 +59,16 @@ func New(name string) (*Config, error) {
 			Fiber: 4,
 		},
 		Data: Data{
-			Duration:   []uint16{750, 1000, 3000},
+			Durations:  []uint16{750, 1000, 3000},
 			PacketSize: 100,
 		},
 	}
 	err = viper.Unmarshal(&cfg)
 	if err != nil {
 		return nil, err
+	}
+	if cfg.Data.MaxDuration() == 0 {
+		return nil, errors.New("Maximum duration length is too small")
 	}
 	return &cfg, nil
 }

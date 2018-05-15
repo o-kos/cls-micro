@@ -9,6 +9,6 @@ data:
     # Signal filename
     # filename: testcls.wav
     # Available sizes for classification, ms
-    duration: [750, 1000, 3000]
+    durations: [750, 1000, 3000]
     # One cls packet size, ms 
     packet-size: 100
