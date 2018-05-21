@@ -20,7 +20,7 @@ func NewSamplesReader(fileName string) (*SamplesReader, error) {
 	file, err := os.Open(fileName)
 	defer file.Close()
 	if err != nil {
-		return nil, fmt.Errorf("Unable to open source file %s: %v", fileName, err)
+		return nil, fmt.Errorf("Unable to %v", err)
 	}
 	r := wav.NewReader(file)
 	format, err := r.Format()
@@ -28,14 +28,14 @@ func NewSamplesReader(fileName string) (*SamplesReader, error) {
 		return nil, fmt.Errorf("Unable to read wav header: %v", err)
 	}
 	if format.NumChannels != 2 {
-		return nil, fmt.Errorf("Unable to process non-iq files")
+		return nil, fmt.Errorf("Unable to process non-iq file")
 	}
-	af, ok := map[uint16]string{wav.AudioFormatPCM: "i", wav.AudioFormatIEEEFloat: "f"}[format.AudioFormat]
+	af, ok := map[uint16]string{wav.AudioFormatPCM: "s", wav.AudioFormatIEEEFloat: "f"}[format.AudioFormat]
 	if !ok {
-		return nil, fmt.Errorf("Unsupported format type %d", format.AudioFormat)
+		return nil, fmt.Errorf("Unsupported format type: %d", format.AudioFormat)
 	}
 
-	wr := SamplesReader{r, format.SampleRate, af, nil}
+	wr := SamplesReader{r, format.SampleRate, fmt.Sprintf("%d%s", format.BitsPerSample, af), nil}
 	return &wr, nil
 }
 

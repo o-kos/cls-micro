@@ -38,8 +38,8 @@ type Config struct {
 	Data
 }
 
-// New create of Cfg struct and try to load it from yaml file
-func New(name string) (*Config, error) {
+// NewCfg create of Cfg struct and try to load it from yaml file
+func NewCfg(name string) (*Config, error) {
 	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	if err != nil {
 		return nil, err
