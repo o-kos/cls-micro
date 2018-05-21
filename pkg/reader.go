@@ -47,7 +47,7 @@ func from16s(data []byte, offset int) (r, i float32) {
 	return
 }
 
-func from32s(data []byte, offset int) (r, i float32) {
+func from32f(data []byte, offset int) (r, i float32) {
 	r = float32(data[offset+0])
 	i = float32(data[offset+1])
 	// soffset := offset + (j * bitsPerSample / 8)
@@ -79,7 +79,7 @@ func (r *SamplesReader) Read(count int) error {
 	if format.AudioFormat == wav.AudioFormatIEEEFloat {
 		fn = from16s
 	} else {
-		fn = from32s
+		fn = from32f
 	}
 	for i, offset := 0, 0; i < count; i++ {
 		r.Samples[i*2], r.Samples[i*2+1] = fn(bytes, offset)

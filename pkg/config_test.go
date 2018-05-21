@@ -6,7 +6,7 @@ import (
 	"github.com/franela/goblin"
 )
 
-func TestNewCfg(t *testing.T) {
+func TestCfg(t *testing.T) {
 	g := goblin.Goblin(t)
 
 	g.Describe("#NewCfg", func() {
