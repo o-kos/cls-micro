@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/franela/goblin"
@@ -13,7 +14,7 @@ func TestReader(t *testing.T) {
 		g.It("Should process error if wav not found", func() {
 			_, err := NewSamplesReader("./dummy.wav")
 			g.Assert(err == nil).IsFalse()
-			g.Assert(err.Error()).Equal("Unable to open ./dummy.wav: The system cannot find the file specified.")
+			g.Assert(strings.HasPrefix(err.Error(), "Unable to open ./dummy.wav: ")).IsTrue()
 		})
 
 		g.It("Should process error if wav file has bad header", func() {
