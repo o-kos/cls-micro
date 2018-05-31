@@ -42,8 +42,8 @@ func NewSamplesReader(fileName string) (*SamplesReader, error) {
 type sampleMaker func([]byte, int) (float32, float32)
 
 func from16s(data []byte, offset int) (r, i float32) {
-	r = float32(data[offset+0])
-	i = float32(data[offset+1])
+	r = float32(int16(uint16(data[offset+0]) + uint16(data[offset+1])<<8))
+	i = float32(int16(uint16(data[offset+2]) + uint16(data[offset+3])<<8))
 	return
 }
 
