@@ -69,7 +69,22 @@ func TestReader(t *testing.T) {
 	})
 
 	g.Describe("#from32f", func() {
-		g.It("Should make 32c sample from 32f pairs in byte array")
+		g.It("Should make 32c sample from 32f pairs in byte array", func() {
+			bytes := [...]byte{
+				//0r                    0i                      1r                      1i
+				0xC0, 0xAD, 0x16, 0x3D, 0x80, 0xBE, 0xA8, 0xBD, 0x80, 0xC3, 0xEE, 0x3D, 0x80, 0x60, 0xE3, 0xBD,
+				//2r                    2i                      3r                      3i
+				0x80, 0xBF, 0x5A, 0x3D, 0x80, 0x1D, 0xBF, 0xBD, 0x00, 0x78, 0xC2, 0xBD, 0x00, 0x3D, 0x24, 0xBD,
+			}
+			//                      0r           0i          1r           1i          2r           2i            3r            3i
+			samples := [...]float32{0.036786795, -0.0823946, 0.116583824, -0.1110239, 0.053405285, -0.093317986, -0.094955444, -0.040097237}
+			// samples := [...]float32{1024896448, -1113014656, 1039057792, -1109172096, 1029357440, -1111548544, -1111328768, -1121698560}
+			for i := 0; i < 4; i++ {
+				re, im := from32f(bytes[:], i*8)
+				g.Assert(re).Equal(samples[i*2+0])
+				g.Assert(im).Equal(samples[i*2+1])
+			}
+		})
 	})
 
 	g.Describe("#Read", func() {

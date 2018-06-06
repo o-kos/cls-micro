@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"math"
 	"os"
 
 	wav "github.com/youpy/go-wav"
@@ -48,17 +49,19 @@ func from16s(data []byte, offset int) (r, i float32) {
 }
 
 func from32f(data []byte, offset int) (r, i float32) {
-	r = float32(data[offset+0])
-	i = float32(data[offset+1])
-	// soffset := offset + (j * bitsPerSample / 8)
-	// bits := uint32(
-	// 	(int(bytes[soffset+3]) << 24) +
-	// 	(int(bytes[soffset+2]) << 16) +
-	// 	(int(bytes[soffset+1]) <<  8) +
-	// 	(int(bytes[soffset+0]) <<  0)
-	// )
-	// samples[i * 2 + 0] = math.Float32frombits(bits)
-	// samples[i * 2 + 1] = math.Float32frombits(bits)
+	bi := uint32(
+		(int32(data[offset+3]) << 24) +
+			(int32(data[offset+2]) << 16) +
+			(int32(data[offset+1]) << 8) +
+			(int32(data[offset+0]) << 0))
+	br := uint32(
+		(int32(data[offset+7]) << 24) +
+			(int32(data[offset+6]) << 16) +
+			(int32(data[offset+5]) << 8) +
+			(int32(data[offset+4]) << 0))
+	r = math.Float32frombits(bi)
+	i = math.Float32frombits(br)
+	fmt.Println(bi, i, br, r)
 	return
 }
 
