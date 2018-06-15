@@ -61,7 +61,6 @@ func from32f(data []byte, offset int) (r, i float32) {
 			(int32(data[offset+4]) << 0))
 	r = math.Float32frombits(bi)
 	i = math.Float32frombits(br)
-	fmt.Println(bi, i, br, r)
 	return
 }
 

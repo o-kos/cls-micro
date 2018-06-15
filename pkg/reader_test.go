@@ -88,7 +88,14 @@ func TestReader(t *testing.T) {
 	})
 
 	g.Describe("#Read", func() {
-		g.It("Should check correct reader pointer")
+		g.It("Should check correct reader pointer", func() {
+			r, err := NewSamplesReader("./data/110B_8k_16c.wav")
+			g.Assert(err == nil).IsTrue()
+			g.Assert(r == nil).IsFalse()
+			g.Assert(r.reader == nil).IsFalse()
+			err = r.Read(1)
+			g.Assert(err == nil).IsTrue()
+		})
 		g.It("Should check too short file")
 		g.It("Should correct read 16s file")
 		g.It("Should correct read 32f file")
