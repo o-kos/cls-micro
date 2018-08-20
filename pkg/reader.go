@@ -3,8 +3,8 @@ package utils
 import (
 	"fmt"
 	"math"
-	"os"
 
+	riff "github.com/youpy/go-riff"
 	wav "github.com/youpy/go-wav"
 )
 
@@ -17,14 +17,9 @@ type SamplesReader struct {
 }
 
 // NewSamplesReader - constructor for WavReader
-func NewSamplesReader(fileName string) (*SamplesReader, error) {
-	file, err := os.Open(fileName)
-	defer file.Close()
-	if err != nil {
-		return nil, fmt.Errorf("Unable to %v", err)
-	}
-	r := wav.NewReader(file)
-	format, err := r.Format()
+func NewSamplesReader(r riff.RIFFReader) (*SamplesReader, error) {
+	reader := wav.NewReader(r)
+	format, err := reader.Format()
 	if err != nil {
 		return nil, fmt.Errorf("Unable to read wav header: %v", err)
 	}
@@ -36,7 +31,7 @@ func NewSamplesReader(fileName string) (*SamplesReader, error) {
 		return nil, fmt.Errorf("Unsupported format type: %d", format.AudioFormat)
 	}
 
-	wr := SamplesReader{r, format.SampleRate, fmt.Sprintf("%d%s", format.BitsPerSample, af), nil}
+	wr := SamplesReader{reader, format.SampleRate, fmt.Sprintf("%d%s", format.BitsPerSample, af), nil}
 	return &wr, nil
 }
 
